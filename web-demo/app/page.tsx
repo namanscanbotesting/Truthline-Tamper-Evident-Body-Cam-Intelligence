@@ -9,9 +9,9 @@ export default function Home() {
                 C
               </span>
               <div className="text-sm">
-                <p className="font-semibold text-slate-100">Clearance</p>
+                <p className="font-semibold text-slate-100">Truthline</p>
                 <p className="text-xs text-slate-500">
-                  Tamper-evident video receipts
+                  Tamper-Evident Body Cam Intelligence
                 </p>
               </div>
             </div>
@@ -26,13 +26,13 @@ export default function Home() {
           <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
             <div className="space-y-5">
               <p className="text-xs font-semibold uppercase tracking-[0.4em] text-slate-400">
-                Clearance
+                Truthline
               </p>
               <h1 className="text-4xl font-semibold text-white md:text-6xl">
                 Publish, prove, and verify video authenticity.
               </h1>
               <p className="max-w-xl text-base text-slate-400">
-                Clearance anchors video fingerprints on-chain and makes receipts
+                Truthline anchors video fingerprints on-chain and makes receipts
                 shareable in seconds. Simulate once, verify everywhere.
               </p>
               <div className="flex flex-wrap gap-3">

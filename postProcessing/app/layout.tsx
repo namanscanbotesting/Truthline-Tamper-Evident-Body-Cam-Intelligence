@@ -1,8 +1,8 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Clearance',
-  description: 'AI-Powered Police Report Generator'
+  title: 'Truthline',
+  description: 'Tamper-Evident Body Cam Intelligence'
 };
 
 export default function RootLayout({

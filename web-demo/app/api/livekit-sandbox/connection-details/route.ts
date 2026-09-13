@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   const hardcodedRoomConfig: SandboxRequestBody["room_config"] = {
     agents: [
       {
-        agent_name: "clearance-agent-gemini",
+        agent_name: "truthline-agent-gemini",
         metadata: '{"source":"sandbox"}',
       },
     ],
