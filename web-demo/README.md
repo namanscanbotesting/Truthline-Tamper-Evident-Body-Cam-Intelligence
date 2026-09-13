@@ -1,6 +1,6 @@
-# Clearance
+# Truthline
 
-Clearance is a Next.js app that simulates a body cam streaming to a LiveKit
+Truthline is a Next.js app that simulates a body cam streaming to a LiveKit
 agent, then anchors tamper-evident records on Solana and stores video data on
 IPFS. It is a demo that shows the full chain of custody: livestream, analysis,
 event alerts, immutable receipts, and public verification.
@@ -23,7 +23,7 @@ This is the relevant control flow in `app/upload/page.tsx`:
 - LiveKit connection details are fetched from
   `POST /api/livekit-sandbox/connection-details`.
 - The room is configured to include a LiveKit agent named
-  `clearance-agent-gemini`.
+  `truthline-agent-gemini`.
 - The video file is turned into a stream using `HTMLVideoElement.captureStream`
   and published with `livekit-client` as a `LocalVideoTrack` and
   `LocalAudioTrack`.
@@ -76,7 +76,7 @@ but it does not claim capture-time authenticity. In a real deployment you would:
 - Persist raw footage to decentralized storage (IPFS) or a trusted archive.
 - Anchor segment hashes and metadata on-chain (Solana memo) for public proof.
 
-Clearance demonstrates the integrity guarantees after publish time: if the
+Truthline demonstrates the integrity guarantees after publish time: if the
 footage changes, the hashes and the Solana memo will no longer match.
 
 ## Supabase setup

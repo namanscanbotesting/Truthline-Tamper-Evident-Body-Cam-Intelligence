@@ -1,4 +1,4 @@
-# Clearance - Tamper-Evident Body Cam Video Analysis System
+# Truthline - Tamper-Evident Body Cam Video Analysis System
 
 A real-time body camera video analysis and verification system that combines AI-powered threat detection with blockchain-backed evidence integrity. The system processes body cam footage to detect critical incidents (gunshots, weapons, persons down), streams analysis events in real-time, and creates immutable cryptographic receipts anchored on the Solana blockchain.
 
@@ -27,7 +27,7 @@ A real-time body camera video analysis and verification system that combines AI-
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              CLEARANCE SYSTEM                                │
+│                              TRUTHLINE SYSTEM                                │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
 │  ┌─────────────────────┐         ┌──────────────────────────────────────┐   │
@@ -204,7 +204,7 @@ pinFileToIPFS(file: File): Promise<string> // Returns IPFS CID
 // Receipt memo format
 interface ReceiptMemo {
   v: number;           // Version (1)
-  app: string;         // "clearance"
+  app: string;         // "truthline"
   receiptId: string;   // UUID
   hashAlgo: string;    // "sha256"
   sha256: string;      // File hash
@@ -410,7 +410,7 @@ TASER_AMPLITUDE_THRESHOLD = 0.50
 
 ### LiveKit
 - **Purpose**: WebRTC video/audio streaming
-- **URL**: `wss://clearance-z4l9q6tv.livekit.cloud`
+- **URL**: `wss://truthline-z4l9q6tv.livekit.cloud`
 - **Features**: Room creation, token generation, agent dispatch
 - **Authentication**: API key + secret
 
@@ -566,8 +566,8 @@ SOLANA_KEYPAIR_JSON=[...ed25519-keypair-bytes...]
 SOLANA_RPC_URL=https://api.devnet.solana.com
 
 # LiveKit Video Streaming
-LIVEKIT_URL=wss://clearance-z4l9q6tv.livekit.cloud
-LIVEKIT_SANDBOX_ID=clearance-1op0ce
+LIVEKIT_URL=wss://truthline-z4l9q6tv.livekit.cloud
+LIVEKIT_SANDBOX_ID=truthline-1op0ce
 
 # Vercel Blob Storage
 BLOB_READ_WRITE_TOKEN="vercel_blob_rw_..."

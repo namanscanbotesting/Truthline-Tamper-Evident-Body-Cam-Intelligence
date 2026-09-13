@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     const receiptId = crypto.randomUUID();
     const memoPayload = buildReceiptMemo({
       v: 1,
-      app: "clearance",
+      app: "truthline",
       receiptId,
       alg: "sha256",
       sha256: sha256Hex,

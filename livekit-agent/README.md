@@ -1,11 +1,11 @@
 ## LiveKit Voice Agent
 
-Passive speech-to-text agent for LiveKit rooms that detects safety trigger phrases, posts events to the Clearance API, and optionally dispatches outbound SIP calls when "shots fired" is detected.
+Passive speech-to-text agent for LiveKit rooms that detects safety trigger phrases, posts events to the Truthline API, and optionally dispatches outbound SIP calls when "shots fired" is detected.
 
 ### What it does
 - Transcribes audio in a LiveKit room using OpenAI Realtime.
 - Watches transcripts and incoming text streams on `video.description`.
-- Publishes trigger events to the Clearance `/api/events` endpoint.
+- Publishes trigger events to the Truthline `/api/events` endpoint.
 - Initiates an outbound SIP call on "shots fired".
 
 ### Triggers
@@ -36,8 +36,8 @@ LIVEKIT_API_KEY=your_livekit_api_key
 LIVEKIT_API_SECRET=your_livekit_api_secret
 OPENAI_API_KEY=your_openai_api_key
 
-# Optional: Clearance events API (defaults to https://clearance-phi.vercel.app)
-CLEARANCE_API_BASE_URL=https://your-clearance-app
+# Optional: Truthline events API (defaults to https://truthline-phi.vercel.app)
+TRUTHLINE_API_BASE_URL=https://your-truthline-app
 
 # Optional: SIP outbound call settings
 LIVEKIT_SIP_TRUNK_ID=your_sip_trunk_id
@@ -49,10 +49,10 @@ LIVEKIT_SIP_ROOM_NAME=sip-alerts
 uv run python agent.py dev
 ```
 
-The agent registers as `clearance-agent-gemini` and will join rooms it is assigned to by your LiveKit Agent infrastructure.
+The agent registers as `truthline-agent-gemini` and will join rooms it is assigned to by your LiveKit Agent infrastructure.
 
 ### Notes
 - Outbound calls dial the hardcoded number in `agent.py` (`OUTBOUND_PHONE_NUMBER`). Update it before production use.
-- Events are posted to `${CLEARANCE_API_BASE_URL}/api/events` with the transcript and room name.
+- Events are posted to `${TRUTHLINE_API_BASE_URL}/api/events` with the transcript and room name.
 - Text stream handling expects `video.description` topics for camera-side text input.
 

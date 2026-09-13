@@ -1,6 +1,6 @@
 export type ReceiptMemo = {
   v: 1;
-  app: "clearance";
+  app: "truthline";
   receiptId: string;
   alg: "sha256";
   sha256: string;
@@ -10,7 +10,7 @@ export type ReceiptMemo = {
 
 export type EventMemo = {
   v: 1;
-  app: "clearance";
+  app: "truthline";
   type: "event";
   event: string;
   tag: string;
@@ -34,7 +34,7 @@ export function parseReceiptMemo(memo: string): ReceiptMemo | null {
     const parsed = JSON.parse(memo) as ReceiptMemo;
     if (
       parsed?.v === 1 &&
-      parsed?.app === "clearance" &&
+      parsed?.app === "truthline" &&
       parsed?.alg === "sha256" &&
       typeof parsed.receiptId === "string" &&
       typeof parsed.sha256 === "string" &&

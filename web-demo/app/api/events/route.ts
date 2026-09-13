@@ -53,7 +53,7 @@ export async function POST(request: Request) {
   const tag = camera ? `${event}_${camera.replace(/\s+/g, "_")}` : event;
   const memoPayload = buildEventMemo({
     v: 1,
-    app: "clearance",
+    app: "truthline",
     type: "event",
     event,
     tag,
