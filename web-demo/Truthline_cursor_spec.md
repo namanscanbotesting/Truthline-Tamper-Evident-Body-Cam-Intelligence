@@ -1,6 +1,6 @@
-# Clearance — Cursor Spec (Next.js + Solana Anchor + IPFS/Pinata + Public Verify)
+# Truthline — Cursor Spec (Next.js + Solana Anchor + IPFS/Pinata + Public Verify)
 
-**Project codename:** Clearance  
+**Project codename:** Truthline  
 **Goal:** A simple web app that lets a user upload a video, play it locally, then “publish” it by:
 1) hashing the exact bytes,  
 2) uploading the file to IPFS via Piñata, and  
@@ -53,7 +53,7 @@ Then anyone can verify later (e.g., public defender) by uploading a file and con
 ## Repository layout
 
 ```
-clearance/
+truthline/
   app/
     page.tsx                     # upload + local playback + publish button
     receipt/[id]/page.tsx        # published receipt view (shareable link)
@@ -121,7 +121,7 @@ We will store a compact, versioned JSON payload in a Solana Memo instruction.
 ```json
 {
   "v": 1,
-  "app": "clearance",
+  "app": "truthline",
   "receiptId": "<uuid>",
   "alg": "sha256",
   "sha256": "<64 hex chars>",
@@ -296,8 +296,8 @@ Server-side check:
 
 ## Setup
 ```bash
-pnpm create next-app clearance --typescript --app
-cd clearance
+pnpm create next-app truthline --typescript --app
+cd truthline
 pnpm add @solana/web3.js prisma @prisma/client
 pnpm add form-data
 pnpm dlx prisma init

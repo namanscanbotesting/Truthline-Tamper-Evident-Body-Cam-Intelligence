@@ -1151,7 +1151,7 @@ export default function UploadPage() {
                 C
               </span>
               <div className="text-sm">
-                <p className="font-semibold text-slate-100">Clearance</p>
+                <p className="font-semibold text-slate-100">Truthline</p>
                 <p className="text-xs text-slate-500">
                   Tamper-evident video receipts
                 </p>

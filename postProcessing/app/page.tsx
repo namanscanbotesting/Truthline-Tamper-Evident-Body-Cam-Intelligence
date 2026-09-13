@@ -42,7 +42,7 @@ export default function Home() {
       <div className="max-w-2xl w-full bg-white rounded-lg shadow-lg p-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-blue-900 mb-2">
-            Clearance
+            Truthline
           </h1>
           <p className="text-gray-600">
             AI-Powered Police Report Generator

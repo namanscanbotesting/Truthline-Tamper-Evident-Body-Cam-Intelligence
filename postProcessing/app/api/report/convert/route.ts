@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const tempDir = path.join(tmpdir(), 'clearance');
+    const tempDir = path.join(tmpdir(), 'truthline');
     await mkdir(tempDir, { recursive: true });
     const baseName = `edited-${randomUUID()}`;
     const docxPath = path.join(tempDir, `${baseName}.docx`);

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Clearance",
-  description: "Publish and verify tamper-evident video receipts.",
+  title: "Truthline",
+  description: "Tamper-Evident Body Cam Intelligence.",
 };
 
 export default function RootLayout({

@@ -1,4 +1,4 @@
-# Clearance MVP
+# Truthline MVP
 
 Local MVP for police report generation from body‑cam footage using Gemini and Firebase (Storage + Firestore).
 

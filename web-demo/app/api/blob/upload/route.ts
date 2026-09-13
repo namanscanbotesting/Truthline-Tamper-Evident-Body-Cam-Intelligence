@@ -12,7 +12,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         return {
           allowedContentTypes: ["video/*"],
           tokenPayload: JSON.stringify({
-            purpose: "clearance-upload",
+            purpose: "truthline-upload",
           }),
         };
       },

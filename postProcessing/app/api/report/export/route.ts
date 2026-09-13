@@ -246,7 +246,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid format' }, { status: 400 });
   }
 
-  const tempDir = path.join(tmpdir(), 'clearance');
+  const tempDir = path.join(tmpdir(), 'truthline');
   await mkdir(tempDir, { recursive: true });
   const baseName = `report-${reportId}-${randomUUID()}`;
   const docxPath = path.join(tempDir, `${baseName}.docx`);
