@@ -110,7 +110,7 @@ RETURN THIS JSON SHAPE:
 `;
 
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash-exp'
+      model: process.env.VIDEO_MODEL || 'gemini-2.0-flash-exp'
     });
 
     const result = await model.generateContent([

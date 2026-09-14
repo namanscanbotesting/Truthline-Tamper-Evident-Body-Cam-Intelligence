@@ -62,7 +62,7 @@ const AUDIO_DETECT_URL =
   process.env.NEXT_PUBLIC_AUDIO_DETECT_URL ?? "http://127.0.0.1:8000";
 
 const ALERT_KEYWORDS = [
-  "⚠️",
+  "ALERT",
   "GUN DRAWN",
   "TASER DRAWN",
   "TASER FIRED",

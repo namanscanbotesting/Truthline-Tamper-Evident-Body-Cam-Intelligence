@@ -28,6 +28,7 @@ from video_store import (
     get_all_events,
     get_screenshots_for_video,
 )
+from model_config import models
 
 # Load environment
 _env_path = os.path.join(os.path.dirname(__file__), ".env.local")
@@ -224,7 +225,13 @@ class FormalReportGenerator:
     def __init__(self, video_id: str):
         self.video_id = video_id
         self.conn = open_video_db()
-        self._client = OpenAI()
+        llm = models.formal_report_model()
+        client_kwargs = {}
+        if llm.base_url:
+            client_kwargs["base_url"] = llm.base_url
+        if llm.api_key:
+            client_kwargs["api_key"] = llm.api_key
+        self._client = OpenAI(**client_kwargs)
         self._video_data = None
         self._events = None
         self._screenshots = None
@@ -408,8 +415,9 @@ Write a flowing narrative that:
 Use formal report language. Be specific and detailed."""
 
         try:
+            llm = models.text_llm()
             response = self._client.chat.completions.create(
-                model="gpt-4o-mini",
+                model=llm.name,
                 messages=[
                     {
                         "role": "system",
@@ -779,8 +787,9 @@ Based on this analysis, extract the following information in JSON format:
 Respond ONLY with valid JSON. Be extremely detailed and specific based on what is observed. The narrative should read like a formal police report that could be submitted to court."""
 
         try:
+            llm = models.formal_report_model()
             response = self._client.chat.completions.create(
-                model="gpt-4o",
+                model=llm.name,
                 messages=[
                     {
                         "role": "system",

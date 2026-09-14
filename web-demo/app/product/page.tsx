@@ -1,349 +1,339 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Suspense, lazy } from 'react';
 import { Header, Footer } from '@/components/ui/navigation';
 import { Section, Container, StaggerGrid, StaggerItem } from '@/components/ui/layout';
 import { SectionHeading, Badge, Card } from '@/components/ui/common';
 import { transitions } from '@/lib/styles/tokens';
+import { 
+  Crosshair, Lock, Link2, CheckCircle2, ArrowRight, ChevronRight,
+  Eye, Headphones, AlertTriangle, Radio, Database, Shield, Fingerprint, FileCheck
+} from 'lucide-react';
 
-/**
- * Product / How It Works Page
- * Scrollytelling walkthrough of the 4 capabilities
- */
+const VerificationSeal = lazy(() => import('@/components/3d/VerificationSeal').then(mod => ({ default: mod.VerificationSeal })));
 
 export default function ProductPage() {
-  const capabilities = [
-    {
-      number: '01',
-      title: 'Real-Time Detection',
-      subtitle: 'AI-powered analysis as events unfold',
-      description: 'Our detection pipeline processes audio and visual streams simultaneously, identifying critical moments the instant they occur. Gunshots, raised voices, sudden movements — flagged immediately for supervisor review.',
-      features: [
-        'Audio event classification (gunshots, screams, glass break)',
-        'Visual anomaly detection (rapid movement, crowd formation)',
-        'Multi-stream synchronization',
-        'Sub-second alert latency',
-      ],
-      icon: '🎯',
-      accent: 'sky',
-    },
-    {
-      number: '02',
-      title: 'Tamper-Evident Hashing',
-      subtitle: 'Cryptographic fingerprints for every event',
-      description: 'The moment an event is detected, we generate a SHA-256 hash of the footage segment. This cryptographic fingerprint is mathematically impossible to forge — any alteration to the file produces a completely different hash.',
-      features: [
-        'SHA-256 cryptographic hashing',
-        'Per-event hash generation',
-        'Hash stored separately from footage',
-        'Instant integrity verification',
-      ],
-      icon: '🔐',
-      accent: 'emerald',
-    },
-    {
-      number: '03',
-      title: 'On-Chain Anchoring',
-      subtitle: 'Permanent blockchain timestamp',
-      description: 'Each hash is written to the Solana blockchain with a precise timestamp. This creates an immutable, publicly-verifiable record that proves when the evidence was captured — and that it hasn\'t been altered since.',
-      features: [
-        'Solana blockchain anchoring',
-        'Immutable transaction records',
-        'Public verifiability',
-        'Low-cost, high-throughput transactions',
-      ],
-      icon: '⛓️',
-      accent: 'violet',
-    },
-    {
-      number: '04',
-      title: 'Public Verification',
-      subtitle: 'Anyone can verify, anytime',
-      description: 'Our verification endpoint is publicly accessible. Provide a receipt ID or upload a file to independently confirm evidence integrity. No account required. No gatekeeping. Mathematical proof, available to all.',
-      features: [
-        'Open verification API',
-        'Receipt lookup by ID',
-        'File hash comparison',
-        'Blockchain transaction explorer',
-      ],
-      icon: '✓',
-      accent: 'amber',
-    },
-  ];
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
 
   return (
-    <div className="relative min-h-screen bg-[#05070d]">
+    <div className="relative min-h-screen">
       <Header />
+      
+      {/* Hero Section */}
+      <section className="relative min-h-[80vh] flex items-center pt-20 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <Suspense fallback={null}>
+            <div className="absolute right-0 top-1/4 w-[600px] h-[600px] opacity-15">
+              <VerificationSeal autoRotate={true} />
+            </div>
+          </Suspense>
+        </div>
 
-      {/* Hero */}
-      <section className="pt-32 pb-16">
-        <Container size="narrow">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={transitions.reveal}
-            className="text-center space-y-6"
-          >
-            <Badge variant="info">How It Works</Badge>
-            <h1 className="text-4xl font-semibold text-white md:text-5xl">
-              Four layers of intelligence.
-            </h1>
-            <p className="max-w-2xl mx-auto text-base text-slate-400">
-              From real-time detection to cryptographic verification — 
-              every capability designed to serve institutional integrity.
-            </p>
-          </motion.div>
+        <Container className="relative z-10">
+          <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="space-y-6"
+            >
+              <Badge variant="info">Product</Badge>
+              
+              <h1 className="text-4xl font-semibold text-white md:text-6xl leading-tight">
+                Evidence integrity by design.
+              </h1>
+              
+              <p className="max-w-xl text-base text-slate-400 leading-relaxed">
+                Four integrated layers — detection, verification, anchoring, and audit — 
+                built to meet CJIS requirements from day one.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="rounded-3xl border border-slate-700/50 bg-[#0c1424] p-8 shadow-2xl shadow-black/40"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-6">
+                How it works
+              </p>
+              <div className="space-y-4">
+                {[
+                  { step: '01', label: 'Capture', desc: 'Body cam streams in real-time' },
+                  { step: '02', label: 'Detect', desc: 'AI flags critical moments instantly' },
+                  { step: '03', label: 'Hash', desc: 'SHA-256 fingerprint generated' },
+                  { step: '04', label: 'Anchor', desc: 'Receipt anchored on-chain' },
+                ].map((item) => (
+                  <div key={item.step} className="flex items-start gap-4">
+                    <span className="text-xs font-mono text-sky-400 mt-0.5">{item.step}</span>
+                    <div>
+                      <p className="text-sm font-semibold text-slate-200">{item.label}</p>
+                      <p className="text-xs text-slate-500">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </Container>
       </section>
 
-      {/* Capabilities - detailed scroll sections */}
-      {capabilities.map((cap, index) => (
-        <Section
-          key={cap.number}
-          className={`py-32 ${index % 2 === 0 ? 'bg-slate-900/30' : ''}`}
-        >
-          <Container>
-            <div className={`grid gap-16 lg:grid-cols-2 lg:items-center ${
-              index % 2 === 1 ? 'lg:flex-row-reverse' : ''
-            }`}>
-              <motion.div
-                initial={{ opacity: 0, x: index % 2 === 0 ? -32 : 32 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={transitions.reveal}
-              >
-                <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-full border mb-6 ${
-                  cap.accent === 'sky' ? 'border-sky-800 bg-sky-950/30' :
-                  cap.accent === 'emerald' ? 'border-emerald-800 bg-emerald-950/30' :
-                  cap.accent === 'violet' ? 'border-violet-800 bg-violet-950/30' :
-                  'border-amber-800 bg-amber-950/30'
-                }`}>
-                  <span className={`text-xs font-bold uppercase tracking-wider ${
-                    cap.accent === 'sky' ? 'text-sky-400' :
-                    cap.accent === 'emerald' ? 'text-emerald-400' :
-                    cap.accent === 'violet' ? 'text-violet-400' :
-                    'text-amber-400'
-                  }`}>
-                    {cap.number}
-                  </span>
-                  <span className="text-sm font-medium text-slate-300">{cap.title}</span>
-                </div>
+      {/* Real-Time Detection - Asymmetric layout */}
+      <Section className="py-32 bg-[#0c1424]/40">
+        <Container>
+          <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -32 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={transitions.reveal}
+            >
+              <Badge variant="alert">Layer 1</Badge>
+              <h2 className="text-3xl font-semibold text-white mt-4 mb-4 md:text-4xl">
+                Real-time detection.
+              </h2>
+              <p className="text-slate-400 leading-relaxed mb-6">
+                Purpose-built for live detection with minimal latency. Our models are designed to flag critical moments 
+                as they happen — not hours later during manual review.
+              </p>
+              <p className="text-sm text-slate-500">
+                AI-powered audio and visual analysis identifies use-of-force events, high-risk situations, 
+                and protocol violations in real-time.
+              </p>
+            </motion.div>
 
-                <h2 className="text-3xl font-semibold text-white mb-4">
-                  {cap.subtitle}
-                </h2>
-
-                <p className="text-slate-400 leading-relaxed mb-8">
-                  {cap.description}
-                </p>
-
-                <ul className="space-y-4">
-                  {cap.features.map((feature, i) => (
-                    <motion.li
-                      key={i}
-                      initial={{ opacity: 0, x: -16 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ ...transitions.reveal, delay: i * 0.1 }}
-                      className="flex items-start gap-3"
-                    >
-                      <svg className={`w-5 h-5 mt-0.5 shrink-0 ${
-                        cap.accent === 'sky' ? 'text-sky-500' :
-                        cap.accent === 'emerald' ? 'text-emerald-500' :
-                        cap.accent === 'violet' ? 'text-violet-500' :
-                        'text-amber-500'
-                      }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span className="text-sm text-slate-300">{feature}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-              </motion.div>
-
-              {/* Visual/diagram */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={{ ...transitions.reveal, delay: 0.2 }}
-                className="relative"
-              >
-                <Card className="aspect-square flex items-center justify-center p-8">
-                  {index === 0 && (
-                    // Real-time detection visualization
-                    <div className="w-full space-y-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-slate-500">Audio Stream</span>
-                        <span className="text-xs text-emerald-400">● Live</span>
-                      </div>
-                      <div className="h-20 flex items-end gap-1">
-                        {Array.from({ length: 30 }).map((_, i) => (
-                          <motion.div
-                            key={i}
-                            className="flex-1 bg-sky-500/60 rounded-t"
-                            animate={{
-                              height: [`${20 + Math.random() * 60}%`, `${20 + Math.random() * 60}%`],
-                            }}
-                            transition={{
-                              duration: 0.3,
-                              repeat: Infinity,
-                              repeatType: 'reverse',
-                              delay: i * 0.03,
-                            }}
-                          />
-                        ))}
-                      </div>
-                      <div className="flex items-center justify-between pt-4">
-                        <span className="text-xs text-slate-500">Visual Stream</span>
-                        <span className="text-xs text-emerald-400">● Live</span>
-                      </div>
-                      <div className="aspect-video rounded-lg bg-slate-800/50 flex items-center justify-center">
-                        <motion.div
-                          className="w-24 h-16 border-2 border-sky-500 rounded"
-                          animate={{
-                            borderColor: ['#0ea5e9', '#38bdf8', '#0ea5e9'],
-                          }}
-                          transition={{
-                            duration: 1,
-                            repeat: Infinity,
-                          }}
-                        />
-                      </div>
+            <motion.div
+              initial={{ opacity: 0, x: 32 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ ...transitions.reveal, delay: 0.2 }}
+              className="rounded-3xl border border-slate-700/50 bg-[#162032] p-8"
+            >
+              <div className="space-y-4">
+                {[
+                  { icon: Eye, label: 'Visual Event Detection', desc: 'Weapon presence, crowd dynamics, use of force indicators' },
+                  { icon: Headphones, label: 'Audio Event Detection', desc: 'Gunshots, breaking glass, verbal escalation patterns' },
+                  { icon: AlertTriangle, label: 'Critical Alert System', desc: 'Prioritized notifications for supervisors' },
+                  { icon: Radio, label: 'Live Feed Integration', desc: 'Seamless with existing body cam infrastructure' },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-start gap-4 p-4 rounded-xl border border-slate-700/30 bg-[#0c1424]/60">
+                    <div className="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center shrink-0">
+                      <item.icon className="w-4 h-4 text-sky-400" />
                     </div>
-                  )}
-
-                  {index === 1 && (
-                    // Hash visualization
-                    <div className="w-full text-center space-y-6">
-                      <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/50">
-                        <p className="text-xs text-slate-500 mb-2">Original File</p>
-                        <div className="h-12 w-full bg-slate-800 rounded flex items-center justify-center">
-                          <span className="text-xs text-slate-400 font-mono">video.mp4</span>
-                        </div>
-                      </div>
-                      
-                      <motion.svg
-                        className="w-8 h-8 mx-auto text-slate-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        initial={{ y: 0 }}
-                        animate={{ y: [0, 8, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                      </motion.svg>
-
-                      <div className="p-4 rounded-xl border border-emerald-800 bg-emerald-950/30">
-                        <p className="text-xs text-emerald-400 mb-2">SHA-256 Hash</p>
-                        <p className="text-xs text-emerald-300 font-mono break-all">
-                          a3f2b8c1d4e5f6789012345678...
-                        </p>
-                      </div>
+                    <div>
+                      <p className="text-sm font-semibold text-slate-200">{item.label}</p>
+                      <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
                     </div>
-                  )}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </Container>
+      </Section>
 
-                  {index === 2 && (
-                    // Blockchain visualization
-                    <div className="w-full space-y-4">
-                      <div className="flex items-center justify-center gap-2">
-                        {[1, 2, 3, 4, 5].map((block, i) => (
-                          <motion.div
-                            key={block}
-                            className="w-12 h-12 rounded-lg border border-violet-800 bg-violet-950/30 flex items-center justify-center"
-                            initial={{ opacity: 0, y: -20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                          >
-                            <span className="text-xs text-violet-400 font-mono">#{100 + i}</span>
-                          </motion.div>
-                        ))}
-                      </div>
-                      <p className="text-xs text-slate-500 text-center">
-                        Your hash anchored in block <span className="text-violet-400 font-mono">#103</span>
-                      </p>
-                      <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/50">
-                        <p className="text-xs text-slate-500 mb-1">Transaction Signature</p>
-                        <p className="text-xs text-slate-300 font-mono break-all">
-                          5KtPnQm7Hx2Yw9Vb3Nc8Jf4Ls6Mg1Ph9Rw2Tk7Xz4Yz8...
-                        </p>
-                      </div>
-                    </div>
-                  )}
-
-                  {index === 3 && (
-                    // Verification visualization
-                    <div className="w-full space-y-4">
-                      <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                        className="w-24 h-24 mx-auto rounded-full bg-emerald-500/20 border-2 border-emerald-500 flex items-center justify-center"
-                      >
-                        <svg className="w-12 h-12 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                      </motion.div>
-                      <div className="text-center">
-                        <p className="text-sm font-semibold text-emerald-400">Verification Successful</p>
-                        <p className="text-xs text-slate-500 mt-1">Hash matches on-chain record</p>
-                      </div>
-                      <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/50 space-y-2">
-                        <div className="flex justify-between text-xs">
-                          <span className="text-slate-500">File Hash:</span>
-                          <span className="text-slate-300 font-mono">a3f2...1234</span>
-                        </div>
-                        <div className="flex justify-between text-xs">
-                          <span className="text-slate-500">Chain Hash:</span>
-                          <span className="text-slate-300 font-mono">a3f2...1234</span>
-                        </div>
-                        <div className="pt-2 border-t border-slate-800">
-                          <span className="text-xs text-emerald-400">✓ Match confirmed</span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </Card>
-              </motion.div>
-            </div>
-          </Container>
-        </Section>
-      ))}
-
-      {/* CTA */}
+      {/* Tamper-Evident Hashing */}
       <Section className="py-32">
-        <Container size="narrow">
-          <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-8 md:p-12 text-center">
-            <h2 className="text-2xl font-semibold text-white mb-4">
-              Ready to see it in action?
-            </h2>
-            <p className="text-slate-400 mb-6 max-w-lg mx-auto">
-              Try our interactive demo to experience the complete flow from upload to verification.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a href="/demo">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center gap-2 rounded-full bg-sky-500 px-8 py-4 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
-                >
-                  Try the Demo
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </motion.button>
+        <Container>
+          <div className="grid gap-16 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <Badge variant="success">Layer 2</Badge>
+              <h2 className="text-3xl font-semibold text-white mt-4 mb-4 md:text-4xl">
+                Tamper-evident hashing.
+              </h2>
+              <p className="max-w-2xl text-base text-slate-400 leading-relaxed mb-6">
+                Every detected event generates a SHA-256 fingerprint — a mathematical proof of the original content. 
+                Any alteration, no matter how small, produces a completely different hash.
+              </p>
+              <p className="text-sm text-slate-500">
+                The hash is stored locally and anchored on-chain in one operation. 
+                No single point of failure in the verification chain.
+              </p>
+            </div>
+
+            <div className="hidden lg:block w-[320px] receipt-terminal rounded-2xl p-6">
+              <p className="text-xs text-slate-500 mb-4 uppercase tracking-wider">Example Receipt</p>
+              <div className="space-y-3 text-xs">
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Algorithm</span>
+                  <span className="text-slate-300 font-mono">SHA-256</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Chain</span>
+                  <span className="text-slate-300 font-mono">Solana</span>
+                </div>
+                <div className="pt-3 border-t border-slate-800">
+                  <p className="text-slate-500 mb-2">Hash</p>
+                  <p className="hash-value text-slate-300">a]f3e8c1d2b4a6e8f0c3d5b7a9e1f2d4c6b8a0e2f4d6c8b0a2e4f6d8</p>
+                </div>
+                <div className="pt-3 border-t border-slate-800">
+                  <p className="text-slate-500 mb-2">IPFS CID</p>
+                  <p className="hash-value text-slate-300">bafybeigdyr...6h3q7</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* On-Chain Anchoring */}
+      <Section className="py-32 bg-[#0c1424]/40">
+        <Container>
+          <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -32 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={transitions.reveal}
+              className="rounded-3xl border border-slate-700/50 bg-[#162032] p-8"
+            >
+              <div className="space-y-4">
+                <div className="p-4 rounded-xl border border-slate-700/30 bg-[#0c1424]/60">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Lock className="w-4 h-4 text-sky-400" />
+                    <p className="text-sm font-semibold text-slate-200">On-Chain Anchoring</p>
+                  </div>
+                  <p className="text-xs text-slate-500">
+                    Each receipt is anchored to the Solana blockchain, creating a permanent, immutable record 
+                    that can be independently verified by anyone.
+                  </p>
+                </div>
+                
+                <div className="p-4 rounded-xl border border-slate-700/30 bg-[#0c1424]/60">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Fingerprint className="w-4 h-4 text-sky-400" />
+                    <p className="text-sm font-semibold text-slate-200">Public Verification</p>
+                  </div>
+                  <p className="text-xs text-slate-500">
+                    No account required. Match the file hash against the chain record to confirm evidence integrity.
+                  </p>
+                </div>
+                
+                <div className="p-4 rounded-xl border border-slate-700/30 bg-[#0c1424]/60">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Database className="w-4 h-4 text-sky-400" />
+                    <p className="text-sm font-semibold text-slate-200">IPFS + On-Chain</p>
+                  </div>
+                  <p className="text-xs text-slate-500">
+                    Full metadata stored on IPFS with on-chain transaction record. 
+                    Permanent audit trail with zero central point of failure.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 32 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ ...transitions.reveal, delay: 0.2 }}
+            >
+              <Badge variant="info">Layer 3</Badge>
+              <h2 className="text-3xl font-semibold text-white mt-4 mb-4 md:text-4xl">
+                On-chain anchoring.
+              </h2>
+              <p className="text-slate-400 leading-relaxed mb-6">
+                Every receipt is anchored to the Solana blockchain, creating a permanent, immutable record 
+                that can be independently verified by anyone — with no account required.
+              </p>
+              <p className="text-sm text-slate-500">
+                The combination of SHA-256 hashing, IPFS storage, and Solana anchoring provides 
+                three independent verification methods for court-admissible evidence integrity.
+              </p>
+            </motion.div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Public Verification - Terminal treatment */}
+      <Section className="py-32">
+        <Container>
+          <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
+            <div className="lg:sticky lg:top-32">
+              <Badge variant="success">Layer 4</Badge>
+              <h2 className="text-3xl font-semibold text-white mt-4 mb-4 md:text-4xl">
+                Public verification.
+              </h2>
+              <p className="text-slate-400 leading-relaxed mb-6">
+                The gold standard for chain of custody. Anyone can verify evidence integrity by matching 
+                file hashes against chain records — no account, no permission, no special tools.
+              </p>
+              <p className="text-sm text-slate-500 mb-8">
+                Upload your evidence file or enter a hash to instantly confirm whether the original content 
+                has been altered since capture.
+              </p>
+
+              <a
+                href="/verify/demo"
+                className="inline-flex items-center gap-2 rounded-full bg-sky-500 px-8 py-4 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+              >
+                Try verification
+                <ChevronRight className="w-4 h-4" />
               </a>
-              <a href="/request-pilot">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center gap-2 rounded-full border border-slate-700 px-8 py-4 text-sm font-semibold text-slate-300 transition hover:border-slate-500 hover:text-white"
-                >
-                  Request a Pilot
-                </motion.button>
+            </div>
+
+            <div className="receipt-terminal rounded-2xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-2 h-2 rounded-full bg-sky-400" />
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                  Verification Terminal
+                </p>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="p-4 rounded-lg bg-[#080e1a] border border-slate-800">
+                  <p className="text-xs text-slate-500 mb-2">Input Hash</p>
+                  <p className="hash-value text-sky-300 text-xs">a]f3e8c1d2b4a6e8f0c3d5b7a9e1f2d4c6b8a0e2f4d6c8b0a2e4f6d8</p>
+                </div>
+                
+                <div className="flex justify-center">
+                  <ArrowRight className="w-4 h-4 text-slate-600 rotate-90" />
+                </div>
+                
+                <div className="p-4 rounded-lg bg-emerald-950/20 border border-emerald-800/30">
+                  <div className="flex items-center gap-2 mb-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <p className="text-xs font-semibold text-emerald-400">Verified</p>
+                  </div>
+                  <p className="text-xs text-slate-400">
+                    Hash matches on-chain record. Content has not been modified since capture.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="mt-6 pt-4 border-t border-slate-800">
+                <p className="text-xs text-slate-500 font-mono">Verification timestamp: 2025-03-15T14:32:00Z</p>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Bottom CTA */}
+      <Section className="py-32 bg-[#0c1424]/40">
+        <Container size="narrow">
+          <div className="rounded-3xl border border-slate-700/50 bg-[#162032] p-8 md:p-12 text-center">
+            <SectionHeading
+              eyebrow="Get Started"
+              title="See how Truthline fits your workflow"
+              subtitle="We work directly with agencies to deploy pilots tailored to your operational requirements."
+              align="center"
+            />
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="/request-pilot"
+                className="inline-flex items-center justify-center rounded-full bg-sky-500 px-8 py-4 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+              >
+                Request a Pilot
+              </a>
+              <a
+                href="/demo"
+                className="inline-flex items-center justify-center rounded-full border border-slate-700 px-8 py-4 text-sm font-semibold text-slate-300 transition hover:border-slate-500 hover:text-white"
+              >
+                Try the Demo
               </a>
             </div>
           </div>

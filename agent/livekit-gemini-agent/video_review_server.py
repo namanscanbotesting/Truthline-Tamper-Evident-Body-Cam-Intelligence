@@ -35,12 +35,13 @@ from report_generator import generate_report
 from formal_report_generator import generate_formal_report, detect_incident_type, FormalReportGenerator
 from video_stream_processor import get_audio_stream_processor, start_audio_stream_processing
 from twelvelabs_client import TwelveLabsClient, extract_generated_text
+from model_config import models
 
 
 UPLOAD_DIR = os.getenv("VIDEO_UPLOAD_DIR", "uploads")
 SHORT_INTERVAL = float(os.getenv("VIDEO_SHORT_INTERVAL", "10"))
 LONG_INTERVAL = float(os.getenv("VIDEO_LONG_INTERVAL", "25"))
-MODEL_NAME = os.getenv("VIDEO_ACTION_MODEL", "gpt-4o-mini")
+MODEL_NAME = models.vision_model().name
 PROCESS_REALTIME = os.getenv("VIDEO_PROCESS_REALTIME", "1") == "1"
 PROVIDER = os.getenv("VIDEO_LLM_PROVIDER", "openai").lower()
 

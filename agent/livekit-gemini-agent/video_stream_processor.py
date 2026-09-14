@@ -31,6 +31,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 from video_store import insert_event, insert_screenshot, open_video_db, update_video_status
+from model_config import models
 
 # Load environment
 _env_path = os.path.join(os.path.dirname(__file__), ".env.local")
@@ -40,7 +41,7 @@ load_dotenv(_env_path)
 FRAME_INTERVAL = float(os.getenv("STREAM_FRAME_INTERVAL", "3"))  # Analyze every N seconds
 IMAGE_MAX_SIZE = int(os.getenv("IMAGE_MAX_SIZE", "512"))
 IMAGE_QUALITY = int(os.getenv("IMAGE_QUALITY", "70"))
-MODEL_NAME = os.getenv("VIDEO_ACTION_MODEL", "gpt-4o-mini")
+MODEL_NAME = models.vision_model().name
 
 # Audio settings for extraction
 AUDIO_SAMPLE_RATE = 16000
@@ -191,7 +192,13 @@ class VideoStreamProcessor:
     def __init__(self, video_id: str, video_path: str):
         self.video_id = video_id
         self.video_path = video_path
-        self._client = OpenAI()
+        vision = models.vision_model()
+        client_kwargs = {}
+        if vision.base_url:
+            client_kwargs["base_url"] = vision.base_url
+        if vision.api_key:
+            client_kwargs["api_key"] = vision.api_key
+        self._client = OpenAI(**client_kwargs)
         self._event_queue: queue.Queue[VideoEvent | None] = queue.Queue()
         self._stop_event = threading.Event()
         self._processing_thread: threading.Thread | None = None
@@ -790,10 +797,11 @@ class VideoStreamProcessor:
 
         try:
             # Read the audio file
+            whisper = models.whisper_model()
             with open(wav_path, "rb") as audio_file:
                 # Use OpenAI Whisper API with timestamps
                 response = self._client.audio.transcriptions.create(
-                    model="whisper-1",
+                    model=whisper.name,
                     file=audio_file,
                     response_format="verbose_json",
                     timestamp_granularities=["segment"],
@@ -837,9 +845,10 @@ class VideoStreamProcessor:
                 audio_data = audio_file.read()
 
             # Deepgram REST API endpoint with query parameters
+            deepgram = models.deepgram_model()
             url = "https://api.deepgram.com/v1/listen"
             params = {
-                "model": "nova-2",
+                "model": deepgram.name,
                 "smart_format": "true",
                 "punctuate": "true",
                 "paragraphs": "true",  # Get sentence-level timestamps

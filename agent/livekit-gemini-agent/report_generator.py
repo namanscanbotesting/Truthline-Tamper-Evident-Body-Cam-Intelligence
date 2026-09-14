@@ -24,8 +24,9 @@ from video_store import (
     list_report_notes,
 )
 from twelvelabs_client import TwelveLabsClient, extract_generated_text
+from model_config import models
 
-# Load environment for OpenAI key
+# Load environment for API keys
 _env_path = os.path.join(os.path.dirname(__file__), ".env.local")
 load_dotenv(_env_path)
 
@@ -126,7 +127,13 @@ class ReportGenerator:
     def __init__(self, video_id: str):
         self.video_id = video_id
         self.conn = open_video_db()
-        self._client = OpenAI()
+        llm = models.text_llm()
+        client_kwargs = {}
+        if llm.base_url:
+            client_kwargs["base_url"] = llm.base_url
+        if llm.api_key:
+            client_kwargs["api_key"] = llm.api_key
+        self._client = OpenAI(**client_kwargs)
         self._cached_report = None  # Cache compiled report to avoid re-computing
 
     def __del__(self):
@@ -197,8 +204,9 @@ Format your response as JSON with these exact keys:
 }}"""
 
         try:
+            llm = models.text_llm()
             response = self._client.chat.completions.create(
-                model="gpt-4o-mini",
+                model=llm.name,
                 messages=[
                     {"role": "system", "content": "You are a professional police report writer. Generate accurate, objective reports based on body camera footage analysis. Always respond with valid JSON."},
                     {"role": "user", "content": prompt}
@@ -262,8 +270,9 @@ TRANSCRIPT PREVIEW:
 Return a JSON array of up to 3 short, concrete questions about missing facts that could be answered from the video. If nothing is missing, return an empty array. Only return JSON.
 """
         try:
+            llm = models.text_llm()
             response = self._client.chat.completions.create(
-                model="gpt-4o-mini",
+                model=llm.name,
                 messages=[
                     {"role": "system", "content": "Return only valid JSON."},
                     {"role": "user", "content": prompt},

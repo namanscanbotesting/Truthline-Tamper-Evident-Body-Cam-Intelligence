@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #05070d;
+  --background: #030712;
   --foreground: #e2e8f0;
-  --surface: #0b1220;
-  --surface-strong: #0f172a;
-  --border: #1f2937;
+  --surface: #0c1424;
+  --surface-strong: #162032;
+  --border: #1e293b;
   --accent: #38bdf8;
 }
 
@@ -48,4 +48,30 @@ body {
     opacity: 1;
     background: #101622;
   }
+}
+
+/* Terminal/receipt card treatment */
+.receipt-terminal {
+  font-family: var(--font-geist-mono), "SF Mono", Monaco, "Cascadia Code", monospace;
+  background: #080e1a;
+  border: 1px solid #1a2540;
+  position: relative;
+  overflow: hidden;
+}
+.receipt-terminal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+  opacity: 0.5;
+}
+.receipt-terminal .hash-value {
+  font-family: var(--font-geist-mono), "SF Mono", Monaco, monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  word-break: break-all;
+  line-height: 1.6;
 }

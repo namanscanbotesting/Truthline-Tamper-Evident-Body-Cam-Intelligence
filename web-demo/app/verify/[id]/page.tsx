@@ -1,6 +1,7 @@
 "use client";
 
 import { use, useState } from "react";
+import { CheckCircle2, XCircle, Upload, Shield, Hash, Link2 } from "lucide-react";
 
 type ReceiptResponse = {
   receiptId: string;
@@ -30,9 +31,7 @@ type VerifyResponse = {
 
 function bufferToHex(buffer: ArrayBuffer): string {
   const bytes = new Uint8Array(buffer);
-  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join(
-    ""
-  );
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
 export default function VerifyPage({
@@ -84,8 +83,7 @@ export default function VerifyPage({
     }
   }
 
-  const matchesReceipt =
-    clientHash && receipt ? clientHash === receipt.sha256Hex : null;
+  const matchesReceipt = clientHash && receipt ? clientHash === receipt.sha256Hex : null;
 
   return (
     <div className="px-6 pb-16 pt-12">
@@ -93,8 +91,8 @@ export default function VerifyPage({
         <header className="space-y-6">
           <nav className="flex items-center justify-between text-sm text-slate-400">
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-800 bg-slate-900/60 text-lg font-semibold text-slate-100">
-                C
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-800 bg-[#0c1424] text-lg font-semibold text-slate-100">
+                T
               </span>
               <div className="text-sm">
                 <p className="font-semibold text-slate-100">Truthline</p>
@@ -113,7 +111,7 @@ export default function VerifyPage({
               >
                 Receipt
               </a>
-              <span className="rounded-full border border-slate-800 bg-slate-900/60 px-3 py-1 text-xs uppercase tracking-[0.3em] text-slate-400">
+              <span className="rounded-full border border-slate-800 bg-[#0c1424] px-3 py-1 text-xs uppercase tracking-[0.3em] text-slate-400">
                 Verify
               </span>
             </div>
@@ -132,9 +130,9 @@ export default function VerifyPage({
                 receipt anchored on-chain.
               </p>
             </div>
-            <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-5">
+            <div className="receipt-terminal rounded-2xl p-5">
               <p className="text-sm text-slate-300">Receipt ID</p>
-              <p className="mt-2 break-all text-sm text-white">{id}</p>
+              <p className="mt-2 break-all text-sm text-white font-mono">{id}</p>
               <p className="mt-2 text-xs text-slate-500">
                 Verification runs locally and against the chain.
               </p>
@@ -142,7 +140,7 @@ export default function VerifyPage({
           </div>
         </header>
 
-        <section className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-2xl shadow-black/40">
+        <section className="rounded-3xl border border-slate-700/50 bg-[#162032] p-6">
           <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="space-y-6">
               <div className="flex flex-wrap items-center gap-4">
@@ -171,26 +169,35 @@ export default function VerifyPage({
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4 text-sm text-slate-300">
+            <div className="receipt-terminal rounded-2xl p-4 text-sm text-slate-300">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
                 Checks
               </p>
               <div className="mt-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span>Client hash</span>
-                  <span className="text-slate-500">
+                  <span className="flex items-center gap-2">
+                    <Hash className="w-3 h-3 text-sky-400" />
+                    Client hash
+                  </span>
+                  <span className={clientHash ? "text-emerald-400 text-xs" : "text-slate-500 text-xs"}>
                     {clientHash ? "Ready" : "Waiting"}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span>Receipt hash</span>
-                  <span className="text-slate-500">
+                  <span className="flex items-center gap-2">
+                    <Link2 className="w-3 h-3 text-sky-400" />
+                    Receipt hash
+                  </span>
+                  <span className={receipt ? "text-emerald-400 text-xs" : "text-slate-500 text-xs"}>
                     {receipt ? "Loaded" : "Waiting"}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span>Chain check</span>
-                  <span className="text-slate-500">
+                  <span className="flex items-center gap-2">
+                    <Shield className="w-3 h-3 text-sky-400" />
+                    Chain check
+                  </span>
+                  <span className={serverVerify ? "text-emerald-400 text-xs" : "text-slate-500 text-xs"}>
                     {serverVerify ? "Checked" : "Waiting"}
                   </span>
                 </div>
@@ -199,37 +206,40 @@ export default function VerifyPage({
           </div>
         </section>
 
-        <section className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-2xl shadow-black/40">
+        <section className="rounded-3xl border border-slate-700/50 bg-[#162032] p-6">
           <h2 className="text-lg font-semibold text-white">Results</h2>
           <div className="mt-6 grid gap-6 text-sm text-slate-300 md:grid-cols-2">
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
+            <div className="receipt-terminal rounded-2xl p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
                 Client hash
               </p>
-              <p className="mt-2 break-all text-slate-200">
-                {clientHash ?? "—"}
+              <p className="mt-2 break-all text-slate-200 hash-value">
+                {clientHash ?? "\u2014"}
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
+            <div className="receipt-terminal rounded-2xl p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
                 Receipt hash
               </p>
-              <p className="mt-2 break-all text-slate-200">
-                {receipt?.sha256Hex ?? "—"}
+              <p className="mt-2 break-all text-slate-200 hash-value">
+                {receipt?.sha256Hex ?? "\u2014"}
               </p>
               {matchesReceipt !== null ? (
-                <p
-                  className={`mt-2 text-xs font-semibold uppercase tracking-[0.3em] ${
-                    matchesReceipt ? "text-emerald-300" : "text-rose-400"
-                  }`}
-                >
+                <div className={`mt-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] ${
+                  matchesReceipt ? "text-emerald-400" : "text-rose-400"
+                }`}>
+                  {matchesReceipt ? (
+                    <CheckCircle2 className="w-4 h-4" />
+                  ) : (
+                    <XCircle className="w-4 h-4" />
+                  )}
                   {matchesReceipt ? "Match" : "Mismatch"}
-                </p>
+                </div>
               ) : null}
             </div>
 
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4 md:col-span-2">
+            <div className="receipt-terminal rounded-2xl p-4 md:col-span-2">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
                 Server chain check
               </p>
@@ -238,7 +248,7 @@ export default function VerifyPage({
                   ? serverVerify.dbMatchesChain
                     ? "Receipt matches Solana memo"
                     : "Receipt does not match Solana memo"
-                  : "—"}
+                  : "\u2014"}
               </p>
             </div>
           </div>
@@ -247,4 +257,3 @@ export default function VerifyPage({
     </div>
   );
 }
-
